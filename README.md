@@ -46,7 +46,7 @@ recomended way:
 // return [ 
 // 		// wechat options here 
 // ];
-'WECHAT' => require(__DIR__.'/insideapi.php'),
+'insideapi' => require(__DIR__.'/insideapi.php'),
 ```
 OR 
 ```php
