@@ -1,0 +1,22 @@
+{
+    "name": "mayunfeng/yii2-insideapi",
+    "type": "yii2-extension",
+    "description": "insideapi for yii2",
+    "keywords": ["yii2", "insideapi", "helper"],
+    "require": {
+        "mayunfeng/insideapi": "1.4",
+        "yiisoft/yii2": "2.0.2"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "马运锋",
+            "email": "yunfeng0614@qq.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "mayunfeng\\EasyApi\\": "src/"
+        }
+    }
+}
