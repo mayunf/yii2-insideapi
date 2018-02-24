@@ -3,7 +3,6 @@
     "type": "yii2-extension",
     "description": "insideapi for yii2",
     "keywords": ["yii2", "insideapi", "helper"],
-    "minimum-stability": "dev",
     "require": {
         "mayunfeng/insideapi": "~1.4",
         "yiisoft/yii2": "~2.0.2"
