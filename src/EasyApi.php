@@ -30,6 +30,22 @@ class EasyApi extends Component
         return self::$_app;
     }
 
+    public function login($user)
+    {
+//        $_SESSION['Accesstoken'] = $user['Accesstoken'];// 设置访问Token
+//        $_SESSION['SessionID'] = $user['SessionID'];// 设置访问SessionID
+//        $_SESSION['UserId'] = $user['UserId'];// 设置当前登录用户的UID
+
+        Yii::$app->session->set('Accesstoken',$user['Accesstoken']);
+        Yii::$app->session->set('SessionID',$user['SessionID']);
+        Yii::$app->session->set('UserId',$user['UserId']);
+    }
+
+    public function getUserId()
+    {
+        return Yii::$app->session->get('UserId');
+    }
+
     public function __get($name)
     {
         try {
