@@ -15,6 +15,14 @@ use yii\base\Component;
 class EasyApi extends Component
 {
 
+    public $debug = false;
+
+    public $token;
+
+    public $access_key;
+
+    public $config;
+
     /** @var  Application */
     private static $_app;
 
@@ -24,7 +32,11 @@ class EasyApi extends Component
     public function getApp()
     {
         if (!self::$_app instanceof Application) {
-            self::$_app = new Application(Yii::$app->params['insideapi']);
+            self::$_app = new Application(array_merge($this->config,[
+                'debug' => $this->debug,
+                'token' => $this->token,
+                'access_key' => $this->access_key,
+            ]));
         }
 
         return self::$_app;
@@ -32,10 +44,6 @@ class EasyApi extends Component
 
     public function login($user)
     {
-//        $_SESSION['Accesstoken'] = $user['Accesstoken'];// 设置访问Token
-//        $_SESSION['SessionID'] = $user['SessionID'];// 设置访问SessionID
-//        $_SESSION['UserId'] = $user['UserId'];// 设置当前登录用户的UID
-
         Yii::$app->session->set('Accesstoken',$user['Accesstoken']);
         Yii::$app->session->set('SessionID',$user['SessionID']);
         Yii::$app->session->set('UserId',$user['UserId']);
