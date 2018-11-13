@@ -4,8 +4,8 @@
     "description": "insideapi for yii2",
     "keywords": ["yii2", "insideapi", "helper"],
     "require": {
-        "mayunfeng/insideapi": "~1.6",
-        "yiisoft/yii2": "~2.0.2"
+        "mayunfeng/insideapi": "*",
+        "yiisoft/yii2": "*"
     },
     "license": "MIT",
     "authors": [
