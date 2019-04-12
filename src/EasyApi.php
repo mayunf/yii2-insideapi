@@ -14,56 +14,37 @@ use yii\base\Component;
 
 class EasyApi extends Component
 {
-
-    public $debug = false;
-
-    public $token;
-
-    public $access_key;
+    /**
+     * @var Application
+     */
+    protected static $instance;
 
     public $config;
 
-    /** @var  Application */
-    private static $_app;
+    public $userParam = 'UserId';
+
+    public $tokenParam = 'AToken';
 
     /**
-     * single instance of InsideAPI\Foundation\Application
+     * @param int $userId
+     * @return Application;
      */
-    public function getApp()
+    public function api($userId = 0)
     {
-        if (!self::$_app instanceof Application) {
-            self::$_app = new Application(array_merge($this->config,[
-                'debug' => $this->debug,
-                'token' => $this->token,
-                'access_key' => $this->access_key,
-            ]));
+        if (!self::$instance instanceof Application) {
+            $config = array_merge(['user_id' => $userId], $this->config);
+            self::$instance = new Application($config);
         }
-
-        return self::$_app;
+        return self::$instance;
     }
 
-    public function login($user)
+    public function login($data)
     {
-        Yii::$app->session->set('Accesstoken',$user['Accesstoken']);
-        Yii::$app->session->set('SessionID',$user['SessionID']);
-        Yii::$app->session->set('UserId',$user['UserId']);
+        \Yii::$app->session->set($this->userParam, $data['Uid']);
+        \Yii::$app->session->set($this->tokenParam, $data['AToken']);
+        $redis = \Yii::$app->redis;
+        $redis->set($data['AToken'], $data['Uid']);
+        $redis->expire($data['AToken'], 3600 * 2);
     }
 
-    public function getUserId()
-    {
-        return Yii::$app->session->get('UserId');
-    }
-
-    public function __get($name)
-    {
-        try {
-            return parent::__get($name);
-        } catch (\Exception $exception) {
-            if ($this->getApp()->$name) {
-                return $this->app->$name;
-            } else {
-                throw $exception->getPrevious();
-            }
-        }
-    }
 }

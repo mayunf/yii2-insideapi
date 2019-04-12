@@ -1,56 +1,53 @@
 # yii2-insideapi
-EasyApi SDK for yii2 , based on [mayunfeng/insideapi](https://github.com/mayunfeng0614/insideapi).     
-This extension helps you access `mayunfeng/insideapi` application in a simple & familiar way:   `Yii::$app->easyapi`.
-   
-## Installation
+基于 [mayunfeng/insideapi](https://github.com/mayunfeng0614/insideapi)
+ 
+## 安装
 ```
 composer require mayunfeng/yii2-insideapi
 ```
 
-## Configuration
+## 配置
 
-Add the SDK as a yii2 application `component` in the `config/main.php`:
+在 `config/main.php` 中添加配置`component`  :
 
 ```php
-
 'components' => [
 	// ...
-	'easyapi' => [
-		'class' => 'mayunfeng\EasyApi'
+	'easyApi' => [
+		'class' => 'mayunfeng\EasyApi\EasyApi'
+		'config' => []
 	],
 	// ...
 ]
 ```
-## Usage
-```php
 
-// 登录:
-$result = Yii::$app->easyapi->user_not_login->login(...$arg)
-if ($result['Success']) {
-    # success
+## 使用
+
+### 1.登录
+```php
+$model = new UserLogon([
+    'phone' => 'phone',
+    'password' => 'password',
+    'type' => 200,
+]);
+
+if ($model->logon()) {
+    echo '登录成功';
 } else {
-    # fail
+    echo '登录失败';
 }
 
+
 ```
+### 2.调用api
 
-
-### How to load Wechat configures?
-the `mayunfeng/insideapi` application always constructs with a `$options` parameter. 
-I made the options as a yii2 param in the `params.php`:
-
-recomended way:
 ```php
-// in this way you need to create a wechat.php in the same directory of params.php
-// put contents in the insideapi.php like:
-// return [ 
-// 		// wechat options here 
-// ];
-'insideapi' => require(__DIR__.'/insideapi.php'),
-```
-OR 
-```php
-'insideapi' => [ // insideapi options here ]
-```
+$easyApi = Yii::$pp->easyApi;
 
-[ mayunfeng/insideapi options configure help docs.](https://github.com/mayunfeng0614/insideapi)
+$easyApi->user->info()
+
+```
+### 3.其他
+
+参考： 
+[mayunfeng/insideapi](https://github.com/mayunfeng0614/insideapi)
