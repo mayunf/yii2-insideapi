@@ -3,12 +3,11 @@
  * Created by PhpStorm.
  * User: mayunfeng
  * Date: 2018/2/24
- * Time: 14:24
+ * Time: 14:24.
  */
 
 namespace mayunfeng\EasyApi;
 
-use Yii;
 use InsideAPI\Foundation\Application;
 use yii\base\Component;
 
@@ -27,6 +26,7 @@ class EasyApi extends Component
 
     /**
      * @param int $userId
+     *
      * @return Application;
      */
     public function api($userId = 0)
@@ -35,6 +35,7 @@ class EasyApi extends Component
             $config = array_merge(['user_id' => $userId], $this->config);
             self::$instance = new Application($config);
         }
+
         return self::$instance;
     }
 
@@ -46,5 +47,4 @@ class EasyApi extends Component
         $redis->set($data['AToken'], $data['Uid']);
         $redis->expire($data['AToken'], 3600 * 2);
     }
-
 }

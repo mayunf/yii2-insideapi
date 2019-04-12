@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: mayunfeng
  * Date: 2019/4/12
- * Time: 15:32
+ * Time: 15:32.
  */
 
 namespace mayunfeng\EasyApi\Behaviors;
-
 
 use mayunfeng\EasyApi\Events\LogonEvent;
 use mayunfeng\EasyApi\Models\UserLogon;
@@ -41,5 +40,4 @@ class LoginBehavior extends Behavior
         }
         $this->cache->set($event->token, $event->userId, $this->duration);
     }
-
 }
