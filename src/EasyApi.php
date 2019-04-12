@@ -20,7 +20,7 @@ class EasyApi extends Component
 
     public $config;
 
-    public $userParam = 'UserId';
+    public $userParam = 'Uid';
 
     public $tokenParam = 'AToken';
 
@@ -38,13 +38,5 @@ class EasyApi extends Component
 
         return self::$instance;
     }
-
-    public function login($data)
-    {
-        \Yii::$app->session->set($this->userParam, $data['Uid']);
-        \Yii::$app->session->set($this->tokenParam, $data['AToken']);
-        $redis = \Yii::$app->redis;
-        $redis->set($data['AToken'], $data['Uid']);
-        $redis->expire($data['AToken'], 3600 * 2);
-    }
+    
 }

@@ -9,14 +9,11 @@
 namespace mayunfeng\EasyApi\Models;
 
 use InsideAPI\Enum\EProductType;
-use mayunfeng\EasyApi\Behaviors\LoginBehavior;
 use mayunfeng\EasyApi\EasyApi;
 use mayunfeng\EasyApi\Events\LogonEvent;
 use mayunfeng\EasyApi\Excepts\UnInstanceExcept;
-use Yii;
-use yii\base\Model;
 
-class UserLogon extends Model
+class UserLogon extends \yii\base\Model
 {
     const EVENT_AFTER_LOGIN = 'afterLogin';
 
@@ -27,29 +24,29 @@ class UserLogon extends Model
     public $type; // 产品类型
 
     /** @var EasyApi */
-    private $easyApi;
+    private $insideApi;
 
     /**
      * @return EasyApi
      */
-    public function getEasyApi()
+    public function getInsideApi()
     {
-        if ($this->easyApi) {
-            return $this->easyApi;
+        if ($this->insideApi) {
+            return $this->insideApi;
         }
 
-        return Yii::$app->easyApi;
+        return \Yii::$app->insideapi;
     }
 
     /**
-     * @param EasyApi $easyApi
+     * @param EasyApi $insideApi
      *
      * @throws UnInstanceExcept
      */
-    public function setEasyApi($easyApi)
+    public function setInsideApi($insideApi)
     {
-        if ($easyApi instanceof EasyApi) {
-            $this->easyApi = $easyApi;
+        if ($insideApi instanceof EasyApi) {
+            $this->insideApi = $insideApi;
         }
 
         throw new UnInstanceExcept('');
@@ -59,8 +56,8 @@ class UserLogon extends Model
     {
         return [
             [
-                'class'    => LoginBehavior::class,
-                'cache'    => Yii::$app->cache,
+                'class' => 'mayunfeng\EasyApi\Behaviors\LogonBehavior',
+                'cache' => \Yii::$app->cache,
                 'duration' => 3600 * 24,
             ],
         ];
@@ -80,9 +77,9 @@ class UserLogon extends Model
     public function attributeLabels()
     {
         return [
-            'phone'    => '手机号',
+            'phone' => '手机号',
             'password' => '密码',
-            'type'     => '产品类型',
+            'type' => '产品类型',
         ];
     }
 
@@ -90,14 +87,14 @@ class UserLogon extends Model
     {
         if ($this->validate()) {
             try {
-                $user = $this->getEasyApi()->api()->access_token->getToken($this->phone, $this->password, $this->type);
-                $event = new LogonEvent(['userId' => $user['Uid'], 'token' => $user['AToken']]);
-                $this->trigger(self::EVENT_AFTER_LOGIN, $event);
-
+                $user = $this->getInsideApi()->api()->access_token->getToken($this->phone, $this->password, $this->type);
+                $this->trigger(self::EVENT_AFTER_LOGIN, new LogonEvent([
+                    'userId' => $user['Uid'],
+                    'token' => $user['AToken']
+                ]));
                 return \Yii::$app->getUser()->login(User::findIdentity($user['Uid']));
             } catch (\Exception $exception) {
                 $this->addError($this->phone, '用户名或密码错误');
-
                 return false;
             }
         } else {
