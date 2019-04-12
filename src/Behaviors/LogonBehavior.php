@@ -13,7 +13,7 @@ use mayunfeng\EasyApi\Models\UserLogon;
 use yii\base\Behavior;
 use yii\caching\Cache;
 
-class LoginBehavior extends Behavior
+class LogonBehavior extends Behavior
 {
     /** @var Cache */
     public $cache;
