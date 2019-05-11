@@ -34,10 +34,12 @@ class LogonBehavior extends Behavior
     // 登录
     public function afterLogon(LogonEvent $event)
     {
-        if (\Yii::$app->getSession()->getIsActive()) {
+        try {
             \Yii::$app->session->set($this->userIdParam, $event->userId);
             \Yii::$app->session->set($this->tokenParam, $event->token);
+            $this->cache->set($event->token, $event->userId, $this->duration);
+        } catch (\Exception $exception) {
+            \Yii::error($exception->getMessage(),__METHOD__);
         }
-        $this->cache->set($event->token, $event->userId, $this->duration);
     }
 }
