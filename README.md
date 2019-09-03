@@ -13,7 +13,7 @@ composer require mayunfeng/yii2-insideapi
 ```php
 'components' => [
 	// ...
-	'easyApi' => [
+	'insideapi' => [
 		'class' => 'mayunfeng\EasyApi\EasyApi'
 		'config' => []
 	],
