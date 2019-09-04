@@ -56,8 +56,8 @@ class UserLogon extends \yii\base\Model
     {
         return [
             [
-                'class' => 'mayunfeng\EasyApi\Behaviors\LogonBehavior',
-                'cache' => \Yii::$app->cache,
+                'class'    => 'mayunfeng\EasyApi\Behaviors\LogonBehavior',
+                'cache'    => \Yii::$app->cache,
                 'duration' => 3600 * 24,
             ],
         ];
@@ -77,9 +77,9 @@ class UserLogon extends \yii\base\Model
     public function attributeLabels()
     {
         return [
-            'phone' => '手机号',
+            'phone'    => '手机号',
             'password' => '密码',
-            'type' => '产品类型',
+            'type'     => '产品类型',
         ];
     }
 
@@ -90,11 +90,13 @@ class UserLogon extends \yii\base\Model
                 $user = $this->getInsideApi()->api()->access_token->getToken($this->phone, $this->password, $this->type);
                 $this->trigger(self::EVENT_AFTER_LOGIN, new LogonEvent([
                     'userId' => $user['Uid'],
-                    'token' => $user['AToken']
+                    'token'  => $user['AToken'],
                 ]));
+
                 return \Yii::$app->getUser()->login(User::findIdentity($user['Uid']));
             } catch (\Exception $exception) {
                 $this->addError($this->phone, '用户名或密码错误');
+
                 return false;
             }
         } else {
