@@ -39,7 +39,7 @@ class LogonBehavior extends Behavior
             \Yii::$app->session->set($this->tokenParam, $event->token);
             $this->cache->set($event->token, $event->userId, $this->duration);
         } catch (\Exception $exception) {
-            \Yii::error($exception->getMessage(),__METHOD__);
+            \Yii::error($exception->getMessage(), __METHOD__);
         }
     }
 }

@@ -38,5 +38,4 @@ class EasyApi extends Component
 
         return self::$instance;
     }
-    
 }
