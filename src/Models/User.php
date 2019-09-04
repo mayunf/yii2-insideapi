@@ -15,23 +15,13 @@ use yii\web\IdentityInterface;
  * Class User.
  *
  * @property int $Uid
- * @property int $UMainId
+ * @property int $UMid
+ * @property string $UName
  * @property string $LDate
- * @property string $UserName
- * @property string $Company
- * @property string $WebSite
- * @property string $Province
- * @property string $City
- * @property string $County
- * @property string $AddressInfo
- * @property string $Industry
- * @property string $Mobile
- * @property string $BindMobile
- * @property string $Email
- * @property string $BindEmail
- * @property string $QQ
- * @property string $UDate
- * @property string $CDate
+ * @property string $UState
+ * @property string $Agid
+ * @property string $AgName
+ * @property int $Role
  */
 class User implements IdentityInterface
 {
@@ -58,7 +48,7 @@ class User implements IdentityInterface
             } else {
                 $userId = Yii::$app->cache->get($params);
             }
-            $user = $insideApi->api($userId)->user->info();
+            $user = $insideApi->api($userId)->user->getUser();
             if ($user['head']['s'] == 0) {
                 static::$Identity = Yii::createObject(array_merge([
                     'class' => self::class,
